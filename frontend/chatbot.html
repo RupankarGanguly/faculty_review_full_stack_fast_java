@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Chatbot – Screenshot Explainer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+        body { background: #f0f2f5; padding: 25px; }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        h1 { color: #333; font-size: 24px; }
+        .nav a {
+            margin-left: 12px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .nav a:hover { text-decoration: underline; }
+        .upload-box {
+            border: 2px dashed #aaa;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .upload-box:hover, .upload-box.dragover {
+            border-color: #007bff;
+            background: #f0f7ff;
+        }
+        .upload-box p { color: #666; margin-top: 10px; }
+        input[type="file"] { display: none; }
+        button {
+            margin-top: 18px;
+            padding: 12px 28px;
+            background: #6f42c1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover { background: #5a32a3; }
+        button:disabled { background: #aaa; cursor: not-allowed; }
+        #preview {
+            margin-top: 20px;
+            max-width: 100%;
+            max-height: 280px;
+            border-radius: 8px;
+            display: none;
+        }
+        #status {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            min-height: 24px;
+        }
+        .result {
+            margin-top: 30px;
+            display: none;
+        }
+        .result h2 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 18px;
+            border-bottom: 2px solid #6f42c1;
+            padding-bottom: 6px;
+        }
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .badge {
+            background: #eef;
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        .badge strong { color: #6f42c1; }
+        .block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            color: #333;
+        }
+        .explanation { background: #f0fff4; border-color: #c3e6cb; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📚 Study Chatbot</h1>
+        <div class="nav">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="#" onclick="logout(); return false;">Logout</a>
+        </div>
+    </div>
+
+    <p style="color:#555; margin-bottom:20px;">
+        Upload a screenshot of notes, a question paper, or code.
+        The chatbot will extract the text and explain it simply.
+    </p>
+
+    <div class="upload-box" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div style="font-size:40px;">📷</div>
+        <p><strong>Click to upload</strong> or drag & drop an image</p>
+        <p style="font-size:13px; color:#999;">PNG, JPG, WEBP · max 10 MB</p>
+    </div>
+    <input type="file" id="fileInput" accept="image/*">
+
+    <div style="text-align:center;">
+        <img id="preview" alt="Preview">
+        <br>
+        <button id="processBtn" onclick="processImage()" disabled>Explain Screenshot</button>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="result" id="resultBox">
+        <div class="meta" id="meta"></div>
+
+        <h2>Extracted Content</h2>
+        <div class="block" id="extracted"></div>
+
+        <h2>Explanation</h2>
+        <div class="block explanation" id="explanation"></div>
+    </div>
+</div>
+
+<script>
+const API_URL = "http://127.0.0.1:8000";
+const token = localStorage.getItem("token");
+
+if (!token) {
+    window.location.href = "login.html";
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    window.location.href = "login.html";
+}
+
+const fileInput = document.getElementById("fileInput");
+const dropZone = document.getElementById("dropZone");
+const preview = document.getElementById("preview");
+const processBtn = document.getElementById("processBtn");
+const statusEl = document.getElementById("status");
+const resultBox = document.getElementById("resultBox");
+
+let selectedFile = null;
+
+fileInput.addEventListener("change", (e) => {
+    if (e.target.files.length) handleFile(e.target.files[0]);
+});
+
+dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+});
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+
+function handleFile(file) {
+    if (!file.type.startsWith("image/")) {
+        alert("Please select an image file.");
+        return;
+    }
+    selectedFile = file;
+    processBtn.disabled = false;
+    resultBox.style.display = "none";
+    statusEl.textContent = "Ready: " + file.name;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        preview.src = e.target.result;
+        preview.style.display = "inline-block";
+    };
+    reader.readAsDataURL(file);
+}
+
+async function processImage() {
+    if (!selectedFile) return;
+
+    processBtn.disabled = true;
+    processBtn.textContent = "Processing...";
+    statusEl.textContent = "Running OCR + AI explanation (may take 10–30 sec)...";
+    resultBox.style.display = "none";
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+        const response = await fetch(API_URL + "/chatbot/process", {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + token },
+            body: formData
+        });
+
+        if (response.status === 401) {
+            alert("Session expired. Please login again.");
+            logout();
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            statusEl.textContent = data.detail || "Processing failed.";
+            return;
+        }
+
+        statusEl.textContent = "Done!";
+        showResult(data);
+    } catch (err) {
+        console.error(err);
+        statusEl.textContent = "Cannot connect to server. Is FastAPI running?";
+    } finally {
+        processBtn.disabled = false;
+        processBtn.textContent = "Explain Screenshot";
+    }
+}
+
+function showResult(data) {
+    const meta = document.getElementById("meta");
+    meta.innerHTML = `
+        <span class="badge"><strong>Type:</strong> ${data.content_type || "—"}</span>
+        <span class="badge"><strong>Topic:</strong> ${data.topic || "—"}</span>
+        <span class="badge"><strong>Subtopic:</strong> ${data.subtopic || "—"}</span>
+        ${data.marks != null ? `<span class="badge"><strong>Marks:</strong> ${data.marks}</span>` : ""}
+        ${data.title ? `<span class="badge"><strong>Title:</strong> ${data.title}</span>` : ""}
+    `;
+
+    document.getElementById("extracted").textContent = data.extracted_content || "(empty)";
+    document.getElementById("explanation").textContent = data.explanation || "(no explanation)";
+    resultBox.style.display = "block";
+}
+</script>
+</body>
+</html>
