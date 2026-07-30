@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+f2nv/
+qenv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment variables
+.env
+
+# Streamlit
+.streamlit/
+
+# Temporary files
+*.log
