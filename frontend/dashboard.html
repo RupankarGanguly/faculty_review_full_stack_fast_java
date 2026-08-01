@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faculty Dashboard</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-        body { background: #f0f2f5; padding: 25px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            padding: 25px;
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
             background: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -23,7 +35,12 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        h1 { color: #333; font-size: 24px; }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
         .logout-btn {
             background: #dc3545;
             color: white;
@@ -33,9 +50,20 @@
             cursor: pointer;
             font-size: 14px;
         }
-        .logout-btn:hover { background: #c82333; }
-        label { font-weight: bold; display: block; margin-top: 12px; color: #444; }
-        input, textarea {
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 12px;
+            color: #444;
+        }
+
+        input,
+        textarea {
             width: 100%;
             padding: 11px;
             margin-top: 6px;
@@ -44,9 +72,22 @@
             border-radius: 6px;
             font-size: 15px;
         }
-        textarea { resize: vertical; min-height: 90px; }
-        input:focus, textarea:focus { outline: none; border-color: #007bff; }
-        .btn-row { margin-top: 15px; }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .btn-row {
+            margin-top: 15px;
+        }
+
         button {
             padding: 10px 18px;
             border: none;
@@ -56,14 +97,44 @@
             font-size: 14px;
             margin-right: 8px;
         }
-        #createBtn { background: #007bff; }
-        #createBtn:hover { background: #0056b3; }
-        #updateBtn { background: #28a745; display: none; }
-        #updateBtn:hover { background: #1f7d35; }
-        #cancelBtn { background: #6c757d; display: none; }
-        #cancelBtn:hover { background: #5a6268; }
-        hr { margin: 30px 0; border: none; border-top: 1px solid #eee; }
-        h2 { margin-bottom: 15px; color: #333; }
+
+        #createBtn {
+            background: #007bff;
+        }
+
+        #createBtn:hover {
+            background: #0056b3;
+        }
+
+        #updateBtn {
+            background: #28a745;
+            display: none;
+        }
+
+        #updateBtn:hover {
+            background: #1f7d35;
+        }
+
+        #cancelBtn {
+            background: #6c757d;
+            display: none;
+        }
+
+        #cancelBtn:hover {
+            background: #5a6268;
+        }
+
+        hr {
+            margin: 30px 0;
+            border: none;
+            border-top: 1px solid #eee;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
         .faculty {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -71,111 +142,143 @@
             padding: 18px;
             margin-bottom: 12px;
         }
-        .faculty h3 { color: #222; margin-bottom: 8px; }
-        .faculty p { color: #555; margin: 4px 0; line-height: 1.4; }
-        .faculty .actions { margin-top: 12px; }
-        .edit { background: #ffc107; color: #222; }
-        .edit:hover { background: #e0a800; }
-        .delete { background: #dc3545; }
-        .delete:hover { background: #c82333; }
-        #status { text-align: center; color: #888; margin: 20px 0; }
+
+        .faculty h3 {
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .faculty p {
+            color: #555;
+            margin: 4px 0;
+            line-height: 1.4;
+        }
+
+        .faculty .actions {
+            margin-top: 12px;
+        }
+
+        .edit {
+            background: #ffc107;
+            color: #222;
+        }
+
+        .edit:hover {
+            background: #e0a800;
+        }
+
+        .delete {
+            background: #dc3545;
+        }
+
+        .delete:hover {
+            background: #c82333;
+        }
+
+        #status {
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+        }
     </style>
 </head>
+
 <body>
-<div class="container">
-    <div class="header">
-        <h1>Faculty Review Dashboard</h1>
-        <div>
-            <a href="chatbot.html" style="margin-right:15px; color:#6f42c1; text-decoration:none; font-weight:bold;">Study Chatbot</a>
-            <button class="logout-btn" onclick="logout()">Logout</button>
+    <div class="container">
+        <div class="header">
+            <h1>Faculty Review Dashboard</h1>
+            <div>
+                <a href="chatbot.html"
+                    style="margin-right:15px; color:#6f42c1; text-decoration:none; font-weight:bold;">Study Chatbot</a>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
         </div>
+
+        <form id="facultyForm" onsubmit="return false;">
+            <input type="hidden" id="taskId" value="">
+
+            <label for="Name">Faculty Name</label>
+            <input type="text" id="Name" placeholder="Enter faculty name" required>
+
+            <label for="Designation">Designation</label>
+            <input type="text" id="Designation" placeholder="e.g. Professor, Assistant Professor" required>
+
+            <label for="Review">Review</label>
+            <textarea id="Review" placeholder="Write your review here..." required></textarea>
+
+            <div class="btn-row">
+                <button type="button" id="createBtn" onclick="createFaculty()">Add Faculty</button>
+                <button type="button" id="updateBtn" onclick="updateFaculty()">Update Faculty</button>
+                <button type="button" id="cancelBtn" onclick="cancelEdit()">Cancel</button>
+            </div>
+        </form>
+
+        <hr>
+
+        <h2>All Faculty Reviews</h2>
+        <div id="status">Loading...</div>
+        <div id="tasks"></div>
     </div>
 
-    <form id="facultyForm" onsubmit="return false;">
-        <input type="hidden" id="taskId" value="">
+    <script>
+        const API_URL = "https://faculty-review-full-stack-fast-java.onrender.com";
+        const token = localStorage.getItem("token");
 
-        <label for="Name">Faculty Name</label>
-        <input type="text" id="Name" placeholder="Enter faculty name" required>
-
-        <label for="Designation">Designation</label>
-        <input type="text" id="Designation" placeholder="e.g. Professor, Assistant Professor" required>
-
-        <label for="Review">Review</label>
-        <textarea id="Review" placeholder="Write your review here..." required></textarea>
-
-        <div class="btn-row">
-            <button type="button" id="createBtn" onclick="createFaculty()">Add Faculty</button>
-            <button type="button" id="updateBtn" onclick="updateFaculty()">Update Faculty</button>
-            <button type="button" id="cancelBtn" onclick="cancelEdit()">Cancel</button>
-        </div>
-    </form>
-
-    <hr>
-
-    <h2>All Faculty Reviews</h2>
-    <div id="status">Loading...</div>
-    <div id="tasks"></div>
-</div>
-
-<script>
-const API_URL = "http://faculty-review-full-stack-fast-java.onrender.com";
-const token = localStorage.getItem("token");
-
-if (!token) {
-    window.location.href = "login.html";
-}
-
-function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    window.location.href = "login.html";
-}
-
-function authHeaders() {
-    return {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token
-    };
-}
-
-async function loadTasks() {
-    const statusEl = document.getElementById("status");
-    const taskDiv = document.getElementById("tasks");
-
-    try {
-        const response = await fetch(API_URL + "/task/get_all", {
-            method: "GET",
-            headers: { "Authorization": "Bearer " + token }
-        });
-
-        if (response.status === 401) {
-            alert("Session expired. Please login again.");
-            logout();
-            return;
+        if (!token) {
+            window.location.href = "login.html";
         }
 
-        if (!response.ok) {
-            statusEl.textContent = "Failed to load reviews.";
-            return;
+        function logout() {
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            window.location.href = "login.html";
         }
 
-        const faculties = await response.json();
-        taskDiv.innerHTML = "";
-
-        if (!faculties.length) {
-            statusEl.textContent = "No faculty reviews yet. Add one above!";
-            return;
+        function authHeaders() {
+            return {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            };
         }
 
-        statusEl.textContent = "";
+        async function loadTasks() {
+            const statusEl = document.getElementById("status");
+            const taskDiv = document.getElementById("tasks");
 
-        faculties.forEach(task => {
-            // Escape HTML to prevent XSS from review text
-            const safeName = escapeHtml(task.Name);
-            const safeDesig = escapeHtml(task.Designation);
-            const safeReview = escapeHtml(task.Review);
+            try {
+                const response = await fetch(API_URL + "/task/get_all", {
+                    method: "GET",
+                    headers: { "Authorization": "Bearer " + token }
+                });
 
-            taskDiv.innerHTML += `
+                if (response.status === 401) {
+                    alert("Session expired. Please login again.");
+                    logout();
+                    return;
+                }
+
+                if (!response.ok) {
+                    statusEl.textContent = "Failed to load reviews.";
+                    return;
+                }
+
+                const faculties = await response.json();
+                taskDiv.innerHTML = "";
+
+                if (!faculties.length) {
+                    statusEl.textContent = "No faculty reviews yet. Add one above!";
+                    return;
+                }
+
+                statusEl.textContent = "";
+
+                faculties.forEach(task => {
+                    // Escape HTML to prevent XSS from review text
+                    const safeName = escapeHtml(task.Name);
+                    const safeDesig = escapeHtml(task.Designation);
+                    const safeReview = escapeHtml(task.Review);
+
+                    taskDiv.innerHTML += `
                 <div class="faculty">
                     <h3>${safeName}</h3>
                     <p><strong>Designation:</strong> ${safeDesig}</p>
@@ -186,171 +289,172 @@ async function loadTasks() {
                     </div>
                 </div>
             `;
-        });
-    } catch (err) {
-        console.error(err);
-        statusEl.textContent = "Cannot connect to server.";
-    }
-}
-
-function escapeHtml(text) {
-    const div = document.createElement("div");
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-async function createFaculty() {
-    const body = {
-        Name: document.getElementById("Name").value.trim(),
-        Designation: document.getElementById("Designation").value.trim(),
-        Review: document.getElementById("Review").value.trim()
-    };
-
-    if (!body.Name || !body.Designation || !body.Review) {
-        alert("Please fill all fields.");
-        return;
-    }
-
-    try {
-        const response = await fetch(API_URL + "/task/create", {
-            method: "POST",
-            headers: authHeaders(),
-            body: JSON.stringify(body)
-        });
-
-        if (response.status === 401) {
-            alert("Session expired. Please login again.");
-            logout();
-            return;
+                });
+            } catch (err) {
+                console.error(err);
+                statusEl.textContent = "Cannot connect to server.";
+            }
         }
 
-        if (response.ok) {
+        function escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function createFaculty() {
+            const body = {
+                Name: document.getElementById("Name").value.trim(),
+                Designation: document.getElementById("Designation").value.trim(),
+                Review: document.getElementById("Review").value.trim()
+            };
+
+            if (!body.Name || !body.Designation || !body.Review) {
+                alert("Please fill all fields.");
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL + "/task/create", {
+                    method: "POST",
+                    headers: authHeaders(),
+                    body: JSON.stringify(body)
+                });
+
+                if (response.status === 401) {
+                    alert("Session expired. Please login again.");
+                    logout();
+                    return;
+                }
+
+                if (response.ok) {
+                    clearForm();
+                    loadTasks();
+                } else {
+                    const data = await response.json();
+                    alert(data.detail || "Creation failed.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Cannot connect to server.");
+            }
+        }
+
+        async function editFaculty(id) {
+            try {
+                const response = await fetch(API_URL + "/task/one_task/" + id, {
+                    method: "GET",
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                if (!response.ok) {
+                    alert("Could not load faculty.");
+                    return;
+                }
+
+                const task = await response.json();
+
+                document.getElementById("taskId").value = task.id;
+                document.getElementById("Name").value = task.Name;
+                document.getElementById("Designation").value = task.Designation;
+                document.getElementById("Review").value = task.Review;
+
+                document.getElementById("createBtn").style.display = "none";
+                document.getElementById("updateBtn").style.display = "inline-block";
+                document.getElementById("cancelBtn").style.display = "inline-block";
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } catch (err) {
+                console.error(err);
+                alert("Error loading faculty.");
+            }
+        }
+
+        async function updateFaculty() {
+            const id = document.getElementById("taskId").value;
+            if (!id) return;
+
+            const body = {
+                Name: document.getElementById("Name").value.trim(),
+                Designation: document.getElementById("Designation").value.trim(),
+                Review: document.getElementById("Review").value.trim()
+            };
+
+            if (!body.Name || !body.Designation || !body.Review) {
+                alert("Please fill all fields.");
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL + "/task/update/" + id, {
+                    method: "PUT",
+                    headers: authHeaders(),
+                    body: JSON.stringify(body)
+                });
+
+                if (response.status === 401) {
+                    alert("Session expired. Please login again.");
+                    logout();
+                    return;
+                }
+
+                if (response.ok) {
+                    clearForm();
+                    loadTasks();
+                } else {
+                    const data = await response.json();
+                    alert(data.detail || "Update failed. You can only edit your own reviews.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Cannot connect to server.");
+            }
+        }
+
+        async function deleteFaculty(id) {
+            if (!confirm("Delete this faculty review?")) return;
+
+            try {
+                const response = await fetch(API_URL + "/task/delete/" + id, {
+                    method: "DELETE",
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                if (response.status === 401) {
+                    alert("Session expired. Please login again.");
+                    logout();
+                    return;
+                }
+
+                if (response.ok || response.status === 204) {
+                    loadTasks();
+                } else {
+                    const data = await response.json().catch(() => ({}));
+                    alert(data.detail || "Delete failed. You can only delete your own reviews.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Cannot connect to server.");
+            }
+        }
+
+        function cancelEdit() {
             clearForm();
-            loadTasks();
-        } else {
-            const data = await response.json();
-            alert(data.detail || "Creation failed.");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Cannot connect to server.");
-    }
-}
-
-async function editFaculty(id) {
-    try {
-        const response = await fetch(API_URL + "/task/one_task/" + id, {
-            method: "GET",
-            headers: { "Authorization": "Bearer " + token }
-        });
-
-        if (!response.ok) {
-            alert("Could not load faculty.");
-            return;
         }
 
-        const task = await response.json();
-
-        document.getElementById("taskId").value = task.id;
-        document.getElementById("Name").value = task.Name;
-        document.getElementById("Designation").value = task.Designation;
-        document.getElementById("Review").value = task.Review;
-
-        document.getElementById("createBtn").style.display = "none";
-        document.getElementById("updateBtn").style.display = "inline-block";
-        document.getElementById("cancelBtn").style.display = "inline-block";
-
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    } catch (err) {
-        console.error(err);
-        alert("Error loading faculty.");
-    }
-}
-
-async function updateFaculty() {
-    const id = document.getElementById("taskId").value;
-    if (!id) return;
-
-    const body = {
-        Name: document.getElementById("Name").value.trim(),
-        Designation: document.getElementById("Designation").value.trim(),
-        Review: document.getElementById("Review").value.trim()
-    };
-
-    if (!body.Name || !body.Designation || !body.Review) {
-        alert("Please fill all fields.");
-        return;
-    }
-
-    try {
-        const response = await fetch(API_URL + "/task/update/" + id, {
-            method: "PUT",
-            headers: authHeaders(),
-            body: JSON.stringify(body)
-        });
-
-        if (response.status === 401) {
-            alert("Session expired. Please login again.");
-            logout();
-            return;
+        function clearForm() {
+            document.getElementById("taskId").value = "";
+            document.getElementById("Name").value = "";
+            document.getElementById("Designation").value = "";
+            document.getElementById("Review").value = "";
+            document.getElementById("createBtn").style.display = "inline-block";
+            document.getElementById("updateBtn").style.display = "none";
+            document.getElementById("cancelBtn").style.display = "none";
         }
 
-        if (response.ok) {
-            clearForm();
-            loadTasks();
-        } else {
-            const data = await response.json();
-            alert(data.detail || "Update failed. You can only edit your own reviews.");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Cannot connect to server.");
-    }
-}
-
-async function deleteFaculty(id) {
-    if (!confirm("Delete this faculty review?")) return;
-
-    try {
-        const response = await fetch(API_URL + "/task/delete/" + id, {
-            method: "DELETE",
-            headers: { "Authorization": "Bearer " + token }
-        });
-
-        if (response.status === 401) {
-            alert("Session expired. Please login again.");
-            logout();
-            return;
-        }
-
-        if (response.ok || response.status === 204) {
-            loadTasks();
-        } else {
-            const data = await response.json().catch(() => ({}));
-            alert(data.detail || "Delete failed. You can only delete your own reviews.");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Cannot connect to server.");
-    }
-}
-
-function cancelEdit() {
-    clearForm();
-}
-
-function clearForm() {
-    document.getElementById("taskId").value = "";
-    document.getElementById("Name").value = "";
-    document.getElementById("Designation").value = "";
-    document.getElementById("Review").value = "";
-    document.getElementById("createBtn").style.display = "inline-block";
-    document.getElementById("updateBtn").style.display = "none";
-    document.getElementById("cancelBtn").style.display = "none";
-}
-
-// Load on page open
-loadTasks();
-</script>
+        // Load on page open
+        loadTasks();
+    </script>
 </body>
+
 </html>

@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login – Faculty Review</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
         body {
             background: #f2f2f2;
             display: flex;
@@ -13,15 +20,22 @@
             align-items: center;
             min-height: 100vh;
         }
+
         .container {
             width: 400px;
             max-width: 95%;
             background: white;
             padding: 35px 30px;
             border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
-        h2 { text-align: center; margin-bottom: 25px; color: #333; }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
         input {
             width: 100%;
             padding: 12px;
@@ -30,7 +44,12 @@
             border-radius: 6px;
             font-size: 15px;
         }
-        input:focus { outline: none; border-color: #28a745; }
+
+        input:focus {
+            outline: none;
+            border-color: #28a745;
+        }
+
         button {
             width: 100%;
             padding: 12px;
@@ -42,79 +61,106 @@
             font-size: 16px;
             cursor: pointer;
         }
-        button:hover { background: #1f7d35; }
-        button:disabled { background: #aaa; cursor: not-allowed; }
-        #message { margin-top: 15px; text-align: center; color: #c0392b; min-height: 20px; }
-        p { margin-top: 18px; text-align: center; color: #555; }
-        a { color: #007bff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+
+        button:hover {
+            background: #1f7d35;
+        }
+
+        button:disabled {
+            background: #aaa;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 15px;
+            text-align: center;
+            color: #c0392b;
+            min-height: 20px;
+        }
+
+        p {
+            margin-top: 18px;
+            text-align: center;
+            color: #555;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
-<div class="container">
-    <h2>Login</h2>
+    <div class="container">
+        <h2>Login</h2>
 
-    <input type="text" id="username" placeholder="Username" autocomplete="username">
-    <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+        <input type="text" id="username" placeholder="Username" autocomplete="username">
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password">
 
-    <button id="loginBtn" onclick="loginUser()">Login</button>
+        <button id="loginBtn" onclick="loginUser()">Login</button>
 
-    <p id="message"></p>
+        <p id="message"></p>
 
-    <p>
-        Don't have an account?
-        <a href="register.html">Register</a>
-    </p>
-</div>
+        <p>
+            Don't have an account?
+            <a href="register.html">Register</a>
+        </p>
+    </div>
 
-<script>
-const API_URL = "http://faculty-review-full-stack-fast-java.onrender.com";
+    <script>
+        const API_URL = "https://faculty-review-full-stack-fast-java.onrender.com";
 
-async function loginUser() {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
-    const msg = document.getElementById("message");
-    const btn = document.getElementById("loginBtn");
+        async function loginUser() {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value;
+            const msg = document.getElementById("message");
+            const btn = document.getElementById("loginBtn");
 
-    msg.textContent = "";
+            msg.textContent = "";
 
-    if (!username || !password) {
-        msg.textContent = "Please fill all fields.";
-        return;
-    }
+            if (!username || !password) {
+                msg.textContent = "Please fill all fields.";
+                return;
+            }
 
-    btn.disabled = true;
-    btn.textContent = "Logging in...";
+            btn.disabled = true;
+            btn.textContent = "Logging in...";
 
-    try {
-        const response = await fetch(API_URL + "/user/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
-        });
+            try {
+                const response = await fetch(API_URL + "/user/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                });
 
-        const data = await response.json();
+                const data = await response.json();
 
-        if (response.ok && data.token) {
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("username", data.username || username);
-            window.location.href = "dashboard.html";
-        } else {
-            msg.textContent = data.detail || data.message || "Login failed";
+                if (response.ok && data.token) {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("username", data.username || username);
+                    window.location.href = "dashboard.html";
+                } else {
+                    msg.textContent = data.detail || data.message || "Login failed";
+                }
+            } catch (err) {
+                console.error(err);
+                msg.textContent = "Cannot connect to server. Is FastAPI running?";
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Login";
+            }
         }
-    } catch (err) {
-        console.error(err);
-        msg.textContent = "Cannot connect to server. Is FastAPI running?";
-    } finally {
-        btn.disabled = false;
-        btn.textContent = "Login";
-    }
-}
 
-// Enter key support
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") loginUser();
-});
-</script>
+        // Enter key support
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") loginUser();
+        });
+    </script>
 </body>
+
 </html>
