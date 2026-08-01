@@ -6,7 +6,7 @@ from src.Faculty.models import FacultyModel  # noqa: F401
 from src.user.models import UserModel  # noqa: F401
 from src.Faculty.router import facultyrouter
 from src.user.router import user_routes
-from src.Chatbot.router import chatbot_router
+#from src.Chatbot.router import chatbot_router
 
 app = FastAPI(title="Faculty Review + Chatbot System")
 
@@ -29,7 +29,7 @@ Base.metadata.create_all(bind=engine)
 
 app.include_router(user_routes)
 app.include_router(facultyrouter)
-app.include_router(chatbot_router)
+#app.include_router(chatbot_router)
 
 
 @app.get("/")
