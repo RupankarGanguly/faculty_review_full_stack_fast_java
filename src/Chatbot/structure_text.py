@@ -36,6 +36,8 @@ def process_screenshot(image_path: str) -> ScreenshotContent:
             subtopic=None,
         )
 
+
+
     llm = get_llm()
     structured_output = llm.with_structured_output(ScreenshotContent)
 
@@ -71,5 +73,7 @@ Screenshot Text:
 
 {query}
 """
+
+
 
     return structured_output.invoke(prompt)

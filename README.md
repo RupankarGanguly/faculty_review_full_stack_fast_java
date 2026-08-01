@@ -62,8 +62,8 @@ GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxx
 uvicorn main:app --reload
 ```
 
-- API:  http://127.0.0.1:8000
-- Docs: http://127.0.0.1:8000/docs
+- API:  http://faculty-review-full-stack-fast-java.onrender.com
+- Docs: http://faculty-review-full-stack-fast-java.onrender.com/docs
 
 ### 5. Frontend
 
@@ -94,7 +94,7 @@ Flow:
 ## Chatbot request example
 
 ```bash
-curl -X POST http://127.0.0.1:8000/chatbot/process \
+curl -X POST http://faculty-review-full-stack-fast-java.onrender.com/chatbot/process \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -F "file=@screenshot.png"
 ```

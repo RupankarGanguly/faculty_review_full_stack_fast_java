@@ -13,6 +13,8 @@ ALLOWED_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tiff"}
 MAX_FILE_SIZE_MB = 10
 
 
+
+
 async def process_image(file: UploadFile) -> dict:
     """
     1. Save uploaded image temporarily
